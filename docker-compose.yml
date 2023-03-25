@@ -1,0 +1,59 @@
+version: "3.10"
+
+
+services:
+
+  db_1:
+    image: postgres
+    container_name: spotify
+    env_file:
+      - ../music_app/env.dev
+#    ports:
+#      - "5432:5432"
+
+  redis:
+    image: "redis:alpine"
+
+  celery:
+    build: .
+    command: celery -A  music_app.celery  worker --loglevel=INFO
+#    volumes:
+#      - .:/manage/manage_1/manage_2
+    env_file:
+      - ../music_app/env.dev
+    links:
+      - 'db_1:db'
+    depends_on:
+      - django
+      - redis
+
+  celery-beat:
+    build: .
+    command: celery -A music_app beat -l info
+#    volumes:
+#      - .:/manage/manage_1/manage_2
+    env_file:
+      - ../music_app/env.dev
+    links:
+      - 'db_1:db'
+    depends_on:
+      - redis
+
+
+  django:
+    build: .
+    restart: always
+    container_name: spotify_app
+    command: python manage.py runserver 0.0.0.0:8000
+    ports:
+      - "8000:8000"
+    env_file:
+     - ../music_app/env.dev
+    links:
+      - "db_1:db"
+    depends_on:
+      - db_1
+      - redis
+
+volumes:
+  pgdata:
