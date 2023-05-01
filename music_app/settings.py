@@ -218,10 +218,7 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
 )
-# GOOGLE_CLIENT_ID = "166424081990-b9mbrccg9ion83t8ehqf3t09r3bg50lc.apps.googleusercontent.com"
-# GOOGLE_SECRET_KEY = "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"
-# SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '166424081990-b9mbrccg9ion83t8ehqf3t09r3bg50lc.apps.googleusercontent.com'
-# SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = "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"
+
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.environ.get('SOCIAL_AUTH_GOOGLE_OAUTH2_KEY')
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.environ.get('SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET')
 
